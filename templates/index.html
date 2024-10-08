@@ -4,108 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venue Selection</title>
-    <!-- Include Select2 CSS -->
+  
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #ffeb3b; /* Yellow background color */
-            color: #333; /* Dark text color */
+            background-color: #ffeb3b; 
+            color: #333; 
         }
         h1 {
-            color: #2c3e50; /* Darker heading color */
-            text-align: center; /* Center the heading */
-            margin-bottom: 20px; /* Spacing below the heading */
+            color: #2c3e50; 
+            text-align: center; 
+            margin-bottom: 20px;
         }
         .flashes {
             list-style-type: none;
             padding: 0;
             color: red;
-            text-align: center; /* Center the flash messages */
-            margin-bottom: 20px; /* Spacing below the messages */
+            text-align: center; 
+            margin-bottom: 20px;
         }
         form {
-            background-color: #ffffff; /* White background for form */
+            background-color: #ffffff; 
             padding: 20px;
-            border-radius: 8px; /* Increased border radius for smoother look */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
-            max-width: 450px; /* Slightly wider form */
-            margin: 0 auto; /* Center form on the page */
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+            max-width: 450px; 
+            margin: 0 auto; 
         }
         label {
             font-weight: bold;
-            display: block; /* Make label take full width */
-            margin-bottom: 10px; /* Spacing below the label */
+            display: block; 
+            margin-bottom: 10px; 
         }
         select, input[type="submit"] {
-            width: 100%; /* Full width for select and submit */
+            width: 100%; 
             padding: 12px;
             margin-top: 10px;
             border: 1px solid #ccc;
-            border-radius: 8px; /* Rounded corners for input */
-            font-size: 16px; /* Increase font size for readability */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow around inputs */
+            border-radius: 8px;
+            font-size: 16px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
         }
         input[type="submit"] {
-            background-color: #3498db; /* Blue button */
-            color: white; /* White text on button */
+            background-color: #3498db;
+            color: white; 
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
         input[type="submit"]:hover {
-            background-color: #2980b9; /* Darker blue on hover */
-            transform: translateY(-2px); /* Slight lift effect on hover */
+            background-color: #2980b9; 
+            transform: translateY(-2px); 
         }
 
-        /* Custom styling for Select2 dropdown */
+        
         .select2-container .select2-selection--single {
-            height: 50px; /* Increase height for better spacing */
+            height: 50px; 
             line-height: 50px;
             border: 1px solid #ccc;
-            border-radius: 8px; /* Make it rounded */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for dropdown */
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
         }
         .select2-container .select2-selection--single .select2-selection__rendered {
-            padding-left: 15px; /* Extra padding for text */
+            padding-left: 15px; 
             font-size: 16px;
-            color: #333; /* Darker font color */
+            color: #333; 
         }
         .select2-container .select2-selection--single .select2-selection__arrow {
             height: 50px;
             right: 10px;
         }
         .select2-container .select2-selection--single:hover {
-            border-color: #2980b9; /* Border color change on hover */
+            border-color: #2980b9; 
         }
 
-        /* Adjust dropdown list styling */
+      
         .select2-dropdown {
-            border-radius: 8px; /* Rounded corners for dropdown */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for dropdown */
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
         }
 
         .select2-results__option {
-            padding: 10px; /* Increase padding for options */
+            padding: 10px; 
         }
 
         .select2-results__option--highlighted {
-            background-color: #3498db; /* Highlighted background color */
-            color: white; /* White text for highlighted option */
+            background-color: #3498db; 
+            color: white; 
         }
     </style>
 
-    <!-- Include jQuery and Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            // Apply Select2 to the dropdown
+           
             $('#venue_id').select2({
-                placeholder: "Select a venue", // Placeholder text
-                allowClear: true // Allows the user to clear the selection
+                placeholder: "Select a venue",
+                allowClear: true
             });
         });
     </script>
@@ -113,7 +112,7 @@
 <body>
     <h1>Select Venue</h1>
 
-    <!-- Display flash messages -->
+    
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flashes">
@@ -124,8 +123,8 @@
         {% endif %}
     {% endwith %}
 
-    <!-- Update form action to point to 'mean_occupancy' -->
-    <form action="/mean_occupancy" method="get"> <!-- Change method to GET -->
+   
+    <form action="/mean_occupancy" method="get"> 
         <label for="venue_id">Choose a Venue:</label>
         <select name="venue_id" id="venue_id" required>
             <option value="">Select a venue</option>
@@ -133,7 +132,7 @@
                 <option value="{{ venue }}">{{ venue }}</option>
             {% endfor %}
         </select>
-        <!-- Update button text to "Get Mean Occupancy" -->
+       
         <input type="submit" value="Get Mean Occupancy">
     </form>
 </body>
