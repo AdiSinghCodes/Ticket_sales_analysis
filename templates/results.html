@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Useful Insights for Your Venue</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+            background-color: #ffeb3b;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-weight: 500;
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .table-container {
+            max-height: 400px; /* Set the height you want for scrolling */
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-weight: 400;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: #3498db; /* Header background color */
+            color: white; /* Header text color */
+            z-index: 10; /* Ensures header stays above table rows */
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2; /* Zebra stripes for even rows */
+        }
+        tbody tr:hover {
+            background-color: #f1c40f; /* Highlight row on hover */
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 4px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        .pagination a:hover {
+            background-color: #2980b9;
+        }
+        .filter-container {
+            text-align: center;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-container select,
+        .filter-container input {
+            padding: 10px;
+            margin: 10px 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 150px; /* Fixed width for uniformity */
+        }
+        .filter-container button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .filter-container button:hover {
+            background-color: #2980b9;
+        }
+        .page-info {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // Function to automatically submit the sort form on selection change
+        function submitSort() {
+            document.getElementById("sortForm").submit();
+        }
+    </script>
+</head>
+<body>
+    <h1>Useful Insights For Your Venue</h1>
+    
+    <!-- Display top images at the top -->
+    <h2>Performance Trends</h2>
+    <div class="top-image-container">
+        {% for img in top_images %}
+            <img src="{{ img }}" alt="Top Image">
+        {% endfor %}
+    </div>
+
+    <!-- Sort form -->
+    <div class="filter-container">
+        <form id="sortForm" action="/mean_occupancy" method="get">
+            <input type="hidden" name="venue_id" value="{{ venue_id }}">
+            
+            <label for="filter_mean_occupancy">Select Mean Occupancy Range:</label>
+            <select name="filter_mean_occupancy" id="filter_mean_occupancy" onchange="submitSort()">
+                <option value="">Select Range</option>
+                <option value="100" {% if request.args.get('filter_mean_occupancy') == '100' %}selected{% endif %}>100%</option>
+                <option value="90-100" {% if request.args.get('filter_mean_occupancy') == '90-100' %}selected{% endif %}>90% - 100%</option>
+                <option value="80-90" {% if request.args.get('filter_mean_occupancy') == '80-90' %}selected{% endif %}>80% - 90%</option>
+                <option value="70-80" {% if request.args.get('filter_mean_occupancy') == '70-80' %}selected{% endif %}>70% - 80%</option>
+                <option value="60-70" {% if request.args.get('filter_mean_occupancy') == '60-70' %}selected{% endif %}>60% - 70%</option>
+                <option value="50-60" {% if request.args.get('filter_mean_occupancy') == '50-60' %}selected{% endif %}>50% - 60%</option>
+                <option value="less than 50" {% if request.args.get('filter_mean_occupancy') == 'less than 50' %}selected{% endif %}>Less than 50%</option>
+            </select>
+    
+            <label for="section_id_search">Search by Section ID:</label>
+            <input type="text" name="section_id_search" id="section_id_search" value="{{ request.args.get('section_id_search') or '' }}" placeholder="Enter Section ID" />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Section ID</th>
+                    <th>Mean Occupancy (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in paginated_data.itertuples() %}
+                <tr>
+                    <td>{{ row.serial_number }}</td>
+                    <td>{{ row.section_id }}</td>
+                    <td>{{ row.mean_occupancy_percentage }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="{{ url_for('mean_occupancy', venue_id=venue_id, page=page-1, filter_mean_occupancy=request.args.get('filter_mean_occupancy')) }}">Previous</a>
+        {% endif %}
+        <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+        {% if page < total_pages %}
+            <a href="{{ url_for('mean_occupancy', venue_id=venue_id, page=page+1, filter_mean_occupancy=request.args.get('filter_mean_occupancy')) }}">Next</a>
+        {% endif %}
+    </div>
+
+    <h2>Top 5 Dates Each Month In 2024</h2>
+    <div class="other-image-container">
+        {% for img in other_images %}
+            <img src="{{ img }}" alt="Other Image">
+        {% endfor %}
+    </div>
+</body>
+</html>
