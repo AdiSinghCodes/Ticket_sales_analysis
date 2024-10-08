@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Useful Insights for Your Venue</title>
-    <!-- Google Fonts -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -28,7 +28,7 @@
             margin-bottom: 10px;
         }
         .table-container {
-            max-height: 400px; /* Set the height you want for scrolling */
+            max-height: 400px; 
             overflow-y: auto;
             margin-top: 20px;
         }
@@ -45,15 +45,15 @@
         thead {
             position: sticky;
             top: 0;
-            background-color: #3498db; /* Header background color */
-            color: white; /* Header text color */
-            z-index: 10; /* Ensures header stays above table rows */
+            background-color: #3498db; 
+            color: white;
+            z-index: 10; 
         }
         tbody tr:nth-child(even) {
-            background-color: #f2f2f2; /* Zebra stripes for even rows */
+            background-color: #f2f2f2;
         }
         tbody tr:hover {
-            background-color: #f1c40f; /* Highlight row on hover */
+            background-color: #f1c40f; 
         }
         .pagination {
             margin-top: 20px;
@@ -87,7 +87,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            width: 150px; /* Fixed width for uniformity */
+            width: 150px; 
         }
         .filter-container button {
             padding: 10px 15px;
@@ -107,7 +107,7 @@
         }
     </style>
     <script>
-        // Function to automatically submit the sort form on selection change
+     
         function submitSort() {
             document.getElementById("sortForm").submit();
         }
@@ -115,8 +115,7 @@
 </head>
 <body>
     <h1>Useful Insights For Your Venue</h1>
-    
-    <!-- Display top images at the top -->
+
     <h2>Performance Trends</h2>
     <div class="top-image-container">
         {% for img in top_images %}
@@ -124,7 +123,7 @@
         {% endfor %}
     </div>
 
-    <!-- Sort form -->
+
     <div class="filter-container">
         <form id="sortForm" action="/mean_occupancy" method="get">
             <input type="hidden" name="venue_id" value="{{ venue_id }}">
@@ -168,7 +167,7 @@
         </table>
     </div>
 
-    <!-- Pagination -->
+
     <div class="pagination">
         {% if page > 1 %}
             <a href="{{ url_for('mean_occupancy', venue_id=venue_id, page=page-1, filter_mean_occupancy=request.args.get('filter_mean_occupancy')) }}">Previous</a>
