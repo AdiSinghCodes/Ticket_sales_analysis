@@ -178,16 +178,6 @@ def process_sales_data(location):
 - Exportable reports and visualizations
 - Recommendations based on data analysis
 
-## 📊 Sample Visualizations
-
-<div align="center">
-
-| Monthly Sales Trends | Top 5 Sales Dates | Location Comparison |
-|---------------------|------------------|-------------------|
-| ![Monthly](screenshot-monthly.png) | ![Top5](screenshot-top5.png) | ![Location](screenshot-location.png) |
-
-</div>
-
 ## 🎯 Use Cases
 
 ### 🎪 Event Organizers
@@ -274,10 +264,6 @@ We welcome contributions to enhance the Ticket Sales Analysis platform! Here's h
 - [ ] **Collaborative Features** - Team sharing and collaboration tools
 - [ ] **API Development** - RESTful API for data access
 - [ ] **Cloud Deployment** - AWS/Azure integration
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
